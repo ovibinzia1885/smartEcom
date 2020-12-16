@@ -451,7 +451,7 @@ textarea:focus {
 /*----------------------------------------*/
 /*Home One | Slider Background Image*/
 .bg-1, .bg-2, .bg-3 {
-	background-image: url(images/slider/1.jpg);
+
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: cover;
@@ -459,10 +459,10 @@ textarea:focus {
 	width: 100%;
 }
 .bg-2 {
-	background-image: url(images/slider/2.jpg);
+
 }
 .bg-3 {
-	background-image: url(images/slider/3.jpg);
+
 }
 /*Home Two | Slider Background Image*/
 .bg-4, .bg-5, .bg-6 {
