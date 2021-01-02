@@ -1,16 +1,16 @@
 
     {% load static %}
      <div class="col-lg-4 col-md-4 text-center pt-xs-30">
-                            <div class="li-banner">
-                                <a href="#">
-                                    <img src="{% static 'images/banner/1_1.jpg' %}" alt="">
-                                </a>
-                            </div>
-                            <div class="li-banner mt-15 mt-sm-30 mt-xs-30">
-                                <a href="#">
-                                    <img src="{% static 'images/banner/1_2.jpg' %}" alt="">
-                                </a>
-                            </div>
+{#                            <div class="li-banner">#}
+{#                                <a href="#">#}
+{#                                    <img src="{% static 'images/banner/1_1.jpg' %}" alt="">#}
+{#                                </a>#}
+{#                            </div>#}
+{#                            <div class="li-banner mt-15 mt-sm-30 mt-xs-30">#}
+{#                                <a href="#">#}
+{#                                    <img src="{% static 'images/banner/1_2.jpg' %}" alt="">#}
+{#                                </a>#}
+{#                            </div>#}
                         </div>
                         <!-- Li Banner Area End Here -->
                     </div>
@@ -41,7 +41,7 @@
                                         <!-- single-product-wrap start -->
                                         <div class="single-product-wrap">
                                             <div class="product-image">
-                                                <a href="single-product.html">
+                                                <a href="{% url 'product_single' id=p.id %}">
                                                     <img src="{{ p.ImageUrl }}" alt="Li's Product Image">
                                                 </a>
                                                 <span class="sticker">New</span>
@@ -50,7 +50,7 @@
                                                 <div class="product_desc_info">
                                                     <div class="product-review">
                                                         <h5 class="manufacturer">
-                                                            <a href="shop-left-sidebar.html">{{ p.title }}</a>
+                                                            <a href="shop-left-sidebar.html">{{ p.category }}</a>
                                                         </h5>
                                                         <div class="rating-box">
                                                             <ul class="rating">
@@ -62,14 +62,14 @@
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                    <h4><a class="product_name" href="single-product.html">{{ p.category }}</a></h4>
+                                                    <h4><a class="product_name" href="{% url 'product_single' id=p.id %}">{{ p.title }}</a></h4>
                                                     <div class="price-box">
                                                         <span class="new-price">${{ p.new_price }}</span>
                                                     </div>
                                                 </div>
                                                 <div class="add-actions">
                                                     <ul class="add-actions-link">
-                                                        <li class="add-cart active"><a href="#">Add to cart</a></li>
+                                                        <li class="add-cart active"><a href="{% url 'Add_to_shoping_cart' id=p.id %}">Add to cart</a></li>
                                                         <li><a class="links-details" href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
                                                         <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
                                                     </ul>
@@ -79,15 +79,59 @@
                                         <!-- single-product-wrap end -->
                                     </div>
                                     {% endfor %}
-
-                                        <!-- single-product-wrap end -->
                                 </div>
+                            </div>
+                        </div>
+                        <div id="li-featured-product" class="tab-pane" role="tabpanel">
+                            {% for p in products %}
+                            <div class="row">
+                                <div class="product-active owl-carousel">
+                                    <div class="col-lg-12">
+                                        <!-- single-product-wrap start -->
+                                        <div class="single-product-wrap">
+                                            <div class="product-image">
+                                                <a href="{% url 'product_single' id=p.id %}">
+                                                    <img src="{{ p.ImageUrl }}" alt="Li's Product Image">
+                                                </a>
+                                                <span class="sticker">New</span>
+                                            </div>
+                                            <div class="product_desc">
+                                                <div class="product_desc_info">
+                                                    <div class="product-review">
+                                                        <h5 class="manufacturer">
+                                                            <a href="shop-left-sidebar.html">{{ p.category }}</a>
+                                                        </h5>
+                                                        <div class="rating-box">
+                                                            <ul class="rating">
+                                                                <li><i class="fa fa-star-o"></i></li>
+                                                                <li><i class="fa fa-star-o"></i></li>
+                                                                <li><i class="fa fa-star-o"></i></li>
+                                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <h4><a class="product_name" href="">{{ p.title }}</a></h4>
+                                                    <div class="price-box">
+                                                        <span class="new-price">${{ p.new_price }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="add-actions">
+                                                    <ul class="add-actions-link">
+                                                        <li class="add-cart active"><a href="{% url 'Add_to_shoping_cart' id=p.id %}">Add to cart</a></li>
+                                                        <li><a class="links-details" href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
+                                                        <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
 
 
-            <!-- Li's TV & Audio Product Area End Here -->
-            <!-- Begin Li's Static Home Area -->
-            <!-- Li's Static Home Area End Here -->
-            <!-- Begin Li's Trending Product Area -->
 
-            <!-- Li's Trending Product Area End Here -->
-            <!-- Begin Li's Trendding Products Area -->
+
+

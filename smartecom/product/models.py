@@ -1,15 +1,17 @@
 from django.db import models
 from django.db.models import ForeignKey
+from django.urls import reverse
 from django.utils.translation import ugettext as ug
+from mptt.models import MPTTModel, TreeForeignKey
 
 
 
-class Category(models.Model):
+class Category(MPTTModel):
     status = (
         ('True', 'True'),
         ('False', 'False'),
     )
-    parent =ForeignKey(
+    parent =TreeForeignKey(
         'self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
     title = models.CharField(max_length=200)
@@ -20,6 +22,9 @@ class Category(models.Model):
     slug = models.SlugField(null=True, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class MPTTMeta:
+        order_insertion_by = ['title']
 
     def  __str__(self):
         return self.title
@@ -55,6 +60,8 @@ class Product(models.Model):
     #     return mark_safe['<img src="{}" heights="70" width="60" />'.format(self.image.url)]
 
     # image_tag.short_description = 'Image'
+    def get_absolute_url(self):
+        return reverse('product_element',kwargs={'slug':self.slug})
 
 class Images(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
