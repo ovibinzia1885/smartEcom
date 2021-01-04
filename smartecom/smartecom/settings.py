@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'adminlte3_theme',
     'ecom',
     'product',
+    'userprofile',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

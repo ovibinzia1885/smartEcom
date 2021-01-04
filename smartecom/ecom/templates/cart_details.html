@@ -33,6 +33,16 @@
                             <li class="active">Shopping Cart</li>
                         </ul>
                     </div>
+                    <div>
+
+                        {% if messages %}
+                                {% for message in messages %}
+                              <div class="alert alert-{{message.tags}}" role="alert">
+                              {{ message }}
+                              </div>
+                                {% endfor %}
+                            {% endif %}
+                </div>
                 </div>
             </div>
             <!-- Li's Breadcrumb Area End Here -->

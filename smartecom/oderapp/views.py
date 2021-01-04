@@ -1,9 +1,11 @@
 from django.shortcuts import render
 
 from ecom.models import Setting
+from django.contrib import messages
 from.models import ShopCart,ShopingCartForm
 from django.shortcuts import render,HttpResponse,redirect,HttpResponseRedirect,reverse
 from product.models import Category,Product,Images
+
 
 def Add_to_shoping_cart(request,id):
     url=request.META.get('HTTP_REFERER')
@@ -27,12 +29,20 @@ def Add_to_shoping_cart(request,id):
                 data.product_id=id
                 data.quantity=form.cleaned_data['quantity']
                 data.save()
+        messages.success(request, 'Product are added .')
         return HttpResponseRedirect(url)
     else:
         if control == 1:
             data = ShopCart.objects.filter(product_id=id, user_id=current_user.id)
             data.quantity += 1
             data.save()
+        else:
+            data=ShopCart()
+            data.user_id=current_user.id
+            data.product_id=id
+            data.quantity = 1
+            data.save()
+        messages.success(request,"your product are add")
         return HttpResponseRedirect(url)
 
 def cart_detials(request):
@@ -57,6 +67,7 @@ def cart_delete(request,id):
     current_user = request.user
     cart_product= ShopCart.objects.filter(id=id, user_id=current_user.id)
     cart_product.delete()
+    messages.success(request,"your product are delete")
     return HttpResponseRedirect(url)
 
 

@@ -21,7 +21,8 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('ecom.urls')),
-    path('oder',include('oderapp.urls')),
+    path('oder/',include('oderapp.urls')),
+    path('user/',include('userprofile.urls')),
 ]
 if settings.DEBUG:
     urlpatterns=urlpatterns+static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
