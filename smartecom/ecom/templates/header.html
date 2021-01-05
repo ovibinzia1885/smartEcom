@@ -22,9 +22,15 @@
                                             <div class="ht-setting-trigger"><span>Setting</span></div>
                                             <div class="setting ht-setting">
                                                 <ul class="ht-setting-list">
-                                                    <li><a href="login-register.html">My Account</a></li>
-                                                    <li><a href="checkout.html">Checkout</a></li>
-                                                    <li><a href="login-register.html">Sign In</a></li>
+                                                    {% if user.id is not None %}
+                                                        <li><a href="login-register.html"> hi {{ request.user.username }}</a></li>
+                                                        <li><a href="{% url 'user_logout' %}">Logout </a></li>
+                                                        <li><a href="login-register.html">cheekout </a></li>
+
+                                                    {% else %}
+                                                    <li><a href="{% url 'user_login' %}">Sign In</a></li>
+                                                    <li><a href="{% url 'user_register' %}">Registration</a></li>
+                                                    {% endif %}
                                                 </ul>
                                             </div>
                                         </li>
