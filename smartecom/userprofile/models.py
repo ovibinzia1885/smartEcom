@@ -21,4 +21,10 @@ class USerprofile(models.Model):
 
     image_tag.short_description = 'Image'
 
+    def imageUrl(self):
+        if self.image:
+            return self.image.url
+        else:
+            return ""
+
 

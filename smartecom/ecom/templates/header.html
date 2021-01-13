@@ -23,7 +23,7 @@
                                             <div class="setting ht-setting">
                                                 <ul class="ht-setting-list">
                                                     {% if user.id is not None %}
-                                                        <li><a href="login-register.html"> hi {{ request.user.username }}</a></li>
+                                                        <li><a href="{% url 'user_profile' %}"> hi {{ request.user.username }}</a></li>
                                                         <li><a href="{% url 'user_logout' %}">Logout </a></li>
                                                         <li><a href="login-register.html">cheekout </a></li>
 
@@ -149,7 +149,7 @@
                                                     <a href="{% url 'cart_details' %}" class="li-button li-button-fullwidth li-button-dark">
                                                         <span>View Full Cart</span>
                                                     </a>
-                                                    <a href="checkout.html" class="li-button li-button-fullwidth">
+                                                    <a href="{% url 'OrderCart' %}" class="li-button li-button-fullwidth">
                                                         <span>Checkout</span>
                                                     </a>
                                                 </div>

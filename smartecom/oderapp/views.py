@@ -5,6 +5,11 @@ from django.contrib import messages
 from.models import ShopCart,ShopingCartForm
 from django.shortcuts import render,HttpResponse,redirect,HttpResponseRedirect,reverse
 from product.models import Category,Product,Images
+from oderapp.models import Order,OderProduct,OderForm
+from django.contrib.auth.decorators import login_required
+from django.utils.crypto import get_random_string
+from userprofile.models import USerprofile
+
 
 
 def Add_to_shoping_cart(request,id):
@@ -71,6 +76,98 @@ def cart_delete(request,id):
     return HttpResponseRedirect(url)
 
 
+@login_required(login_url='/user/login')
+def OrderCart(request):
+    current_user = request.user
+    shoping_cart = ShopCart.objects.filter(user_id=current_user.id)
+    totalamount = 0
+    for rs in shoping_cart:
+        totalamount += rs.quantity*rs.product.new_price
+    if request.method == "POST":
+        form = OderForm(request.POST, request.FILES)
+        if form.is_valid():
+            dat = Order()
+            # get product quantity from form
+            dat.first_name = form.cleaned_data['first_name']
+            dat.last_name = form.cleaned_data['last_name']
+            dat.address = form.cleaned_data['address']
+            dat.city = form.cleaned_data['city']
+            dat.phone = form.cleaned_data['phone']
+            dat.country = form.cleaned_data['country']
+            dat.transaction_id = form.cleaned_data['transaction_id']
+            dat.transaction_image = form.cleaned_data['transaction_image']
+            dat.user_id = current_user.id
+            dat.total = totalamount
+            dat.ip = request.META.get('REMOTE_ADDR')
+            ordercode = get_random_string(5).upper()  # random cod
+            dat.code = ordercode
+            dat.save()
+
+            # moving data shortcart to product cart
+            for rs in shoping_cart:
+                data = OderProduct()
+                data.order_id = dat.id
+                data.product_id = rs.product_id
+                data.user_id = current_user.id
+                data.quantity = rs.quantity
+                data.price = rs.product.new_price
+                data.amount = rs.amount
+                data.save()
+
+                product = Product.objects.get(id=rs.product_id)
+                product.amount -= rs.quantity
+                product.save()
+            # Now remove all oder data from the shoping cart
+            ShopCart.objects.filter(user_id=current_user.id).delete()
+            # request.session['cart_item']=0
+            messages.success(request, 'Your oder has been completed')
+            product_catagory = Category.objects.all()
+            setting = Setting.objects.get(id=1)
+            context = {
+                # 'category':category,
+                'ordercode': ordercode,
+                'product_catagory': product_catagory,
+                'setting': setting,
+            }
+
+            return render(request, 'oder_completed.html', context)
+        else:
+            messages.warning(request, form.errors)
+          #  return HttpResponseRedirect("/order/oder_cart")
+    form = OderForm()
+    profile = USerprofile.objects.get(user_id=current_user.id)
+    total_amount = 0
+    for p in shoping_cart:
+        total_amount += p.product.new_price*p.quantity
+    product_catagory = Category.objects.all()
+    setting = Setting.objects.get(id=1)
+
+    context = {
+        # 'category':category,
+        'shoping_cart': shoping_cart,
+        'totalamount': totalamount,
+        'profile': profile,
+        'form': form,
+        'product_catagory': product_catagory,
+        'setting': setting,
+        'total_amount': total_amount
+    }
+    return render(request, 'order_form.html', context)
+
+
+# def Order_showing(request):
+#     category = Category.objects.all()
+#     setting = Setting.objects.get(id=1)
+#     current_user = request.user
+#     orders = Order.objects.filter(user_id=current_user.id)
+#     context = {
+#         'category': category,
+#         'setting': setting,
+#         'orders': orders
+#
+#     }
+#
+#     return render(request, 'user_order_showing.html', context)
 
 
 
