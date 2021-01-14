@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('ecom.urls')),
     path('oder/',include('oderapp.urls')),
+    path('product/',include('product.urls')),
     path('user/',include('userprofile.urls')),
 ]
 if settings.DEBUG:

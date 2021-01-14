@@ -1,7 +1,6 @@
 from django.db import models
 from django.forms import ModelForm
 from django.utils.safestring import mark_safe
-
 from product.models import Product
 from django.contrib.auth.models import User
 
@@ -87,4 +86,4 @@ class OderProduct(models.Model):
         return self.product.title
 
     def amountnow(self):
-        return self.price*self.quantity
+        return self.price*self.quant
