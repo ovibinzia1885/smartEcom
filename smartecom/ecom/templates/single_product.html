@@ -96,11 +96,11 @@ s
                                     <span class="product-details-ref">Reference: demo_15</span>
                                     <div class="rating-box pt-20">
                                         <ul class="rating rating-with-review-item">
-                                            <li><i class="fa fa-star-o"></i></li>
-                                            <li><i class="fa fa-star-o"></i></li>
-                                            <li><i class="fa fa-star-o"></i></li>
-                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                            <li><i class="fa fa-star{%if single_product.average_review < 1%}-o{%endif%}"></i></li>
+                                           <li><i class="fa fa-star{%if single_product.average_review < 2%}-o{%endif%}"></i></li>
+                                           <li><i class="fa fa-star{%if single_product.average_review < 3%}-o{%endif%}"></i></li>
+                                           <li><i class="fa fa-star{%if single_product.average_review < 4%}-o{%endif%}"></i></li>
+                                           <li><i class="fa fa-star{%if single_product.average_review < 5%}-o{%endif%}"></i></li>
                                             <li class="review-item"><a href="#">Read Review</a></li>
                                             <li class="review-item"><a href="#">Write Review</a></li>
                                         </ul>
@@ -216,24 +216,30 @@ s
                         <div id="reviews" class="tab-pane" role="tabpanel">
                             <div class="product-reviews">
                                 <div class="product-details-comment-block">
+                                {% for p in comment_show %}
+
                                     <div class="comment-review">
                                         <span>Grade</span>
                                         <ul class="rating">
-                                            <li><i class="fa fa-star-o"></i></li>
-                                            <li><i class="fa fa-star-o"></i></li>
-                                            <li><i class="fa fa-star-o"></i></li>
-                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                            <li><i class="fa fa-star{%if p in rate < 1%}-o{%endif%}"></i></li>
+                                        <li><i class="fa fa-star{%if p in rate < 2%}-o{%endif%}"></i></li>
+                                        <li><i class="fa fa-star{%if p in rate < 3%}-o{%endif%}"></i></li>
+                                        <li><i class="fa fa-star{%if p in rate < 4%}-o{%endif%}"></i></li>
+                                        <li><i class="fa fa-star{%if p in rate < 5%}-o{%endif%}"></i></li>
+
+
+
                                         </ul>
                                     </div>
                                     <div class="comment-author-infos pt-25">
-                                        <span>HTML 5</span>
-                                        <em>01-12-18</em>
+                                        <span>{{ p.user.username }}</span>
+                                        <em>{{ p.created_at }}</em>
                                     </div>
                                     <div class="comment-details">
-                                        <h4 class="title-block">Demo</h4>
-                                        <p>Plaza</p>
+                                        <h4 class="title-block">{{ p.subject }}</h4>
+                                        <p>{{ p.comment }}</p>
                                     </div>
+                                 {% endfor %}
                                     <div class="review-btn">
                                         <a class="review-links" href="#" data-toggle="modal" data-target="#mymodal">Write Your Review!</a>
                                     </div>

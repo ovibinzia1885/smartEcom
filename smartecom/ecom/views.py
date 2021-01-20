@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from ecom.models import Setting,ContactForm,ContactMessage
-from product.models import Product,Images,Category
+from product.models import Product,Images,Category,Comment
 from ecom.forms import SearchForm
 from oderapp.models import ShopCart
 
@@ -17,13 +17,15 @@ def home(request):
     slide_img=Product.objects.all().order_by('id')[:2]
     lasted_product=Product.objects.all().order_by('-id')
     products=Product.objects.all()
+
     context={'setting':setting,
          'slide_img':slide_img,
          'lasted_product':lasted_product,
          'products':products,
         'product_catagory':product_catagory,
         'total_amount':total_amount,
-        'cart_product':cart_product
+        'cart_product':cart_product,
+
          }
     return render(request,'home.html',context)
 
@@ -71,12 +73,14 @@ def product_single(request,id):
     single_product =Product.objects.get(id=id)
     image = Images.objects.filter(product_id=id)
     products = Product.objects.all().order_by('id')[:3]
+    comment_show = Comment.objects.filter(product_id=id, status='True')
     contex={
         'product_catagory': product_catagory,
         'setting':setting,
         'single_product':single_product,
         'image':image,
         'products': products,
+        'comment_show': comment_show,
             }
     return render(request,'single_product.html',contex)
 

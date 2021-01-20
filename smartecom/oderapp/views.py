@@ -170,5 +170,30 @@ def OrderCart(request):
 #     return render(request, 'user_order_showing.html', context)
 
 
+def Oder_showing(request):
+    product_catagory = Category.objects.all()
+    setting = Setting.objects.get(id=1)
+    current_user = request.user
+    oders=Order.objects.filter(user_id=current_user.id)
+    context={
+        'product_catagory':product_catagory,
+        'setting':setting,
+        'oders':oders,
+    }
+    return render(request,'user_oder_show.html',context)
 
+
+def Order_Product_showing(request):
+    product_catagory = Category.objects.all()
+    setting = Setting.objects.get(id=1)
+    current_user = request.user
+    order_product = OderProduct.objects.filter(user_id=current_user.id)
+    context = {
+        'product_catagory': product_catagory,
+        'setting': setting,
+        'order_product': order_product
+
+    }
+
+    return render(request, 'OrderProducList.html', context)
 

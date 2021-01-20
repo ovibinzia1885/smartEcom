@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext as ug
 from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.auth.models import User
+from django.db.models import Count, Sum, Avg
 
 
 
@@ -62,6 +63,27 @@ class Product(models.Model):
     #     return mark_safe['<img src="{}" heights="70" width="60" />'.format(self.image.url)]
 
     # image_tag.short_description = 'Image'
+
+    def average_review(self):
+        reviews = Comment.objects.filter(
+            product=self, status=True).aggregate(average=Avg('rate'))
+        avg = 0
+        if reviews['average'] is not None:
+            avg = float(reviews['average'])
+            return avg
+        else:
+            return avg
+
+    def total_review(self):
+        reviews = Comment.objects.filter(
+            product=self, status=True).aggregate(count=Count('id'))
+        cnt = 0
+        if reviews['count'] is not None:
+            cnt = (reviews['count'])
+            return cnt
+
+
+
     def get_absolute_url(self):
         return reverse('product_element',kwargs={'slug':self.slug})
 
