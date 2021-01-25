@@ -197,3 +197,34 @@ def Order_Product_showing(request):
 
     return render(request, 'OrderProducList.html', context)
 
+
+@login_required(login_url='/user/login')
+def user_oder_details(request, id):
+    product_catagory = Category.objects.all()
+    setting = Setting.objects.get(id=1)
+    current_user = request.user
+    order = Order.objects.get(user_id=current_user.id, id=id)
+    order_products = OderProduct.objects.filter(order_id=id)
+    context = {
+        'product_catagory': product_catagory,
+        'setting': setting,
+        'order': order,
+        'order_products': order_products,
+    }
+    return render(request, 'user_order_details.html', context)
+
+
+@login_required(login_url='/user/login')
+def user_oder_product_details(request,id,oid):
+    product_catagory = Category.objects.all()
+    setting = Setting.objects.get(id=1)
+    current_user = request.user
+    order = Order.objects.get(user_id=current_user.id, id=oid)
+    order_products = OderProduct.objects.get(user_id=current_user.id, id=id)
+    context = {
+        'product_catagory': product_catagory,
+        'setting': setting,
+        'order': order,
+        'order_products': order_products,
+    }
+    return render(request, 'user_order_product_details.html', context)

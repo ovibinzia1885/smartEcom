@@ -3,7 +3,7 @@ from django.contrib.auth import logout,authenticate, login,update_session_auth_h
 from django.contrib import messages
 from ecom.models import Setting
 from .forms import SignUpForm,UserUpdateForm,ProfileUpdateForm
-from product.models import Product,Images,Category
+from product.models import Product,Images,Category,Comment
 from userprofile.models import USerprofile
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
@@ -132,7 +132,26 @@ def user_password(request):
 
         })
 
+@login_required(login_url='/user/login')
+def usercomment(request):
+    product_catagory = Category.objects.all()
+    setting = Setting.objects.get(id=1)
+    current_user = request.user
+    comment = Comment.objects.filter(user_id=current_user.id)
+    context = {
+        'product_catagory': product_catagory,
+            'setting': setting,
+        'comment': comment,
 
+    }
+    return render(request, 'usercomment.html', context)
+
+def comment_delete(request, id):
+    current_user = request.user
+    comment = Comment.objects.filter(user_id=current_user.id, id=id)
+    comment.delete()
+    messages.success(request, 'Your comment is successfully deleted')
+    return redirect('comment_delete')
 
 
     

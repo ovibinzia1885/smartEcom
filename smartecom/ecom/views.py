@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
-from ecom.models import Setting,ContactForm,ContactMessage
+from ecom.models import Setting, ContactForm, ContactMessage, FAQ
 from product.models import Product,Images,Category,Comment
 from ecom.forms import SearchForm
 from oderapp.models import ShopCart
@@ -18,7 +18,8 @@ def home(request):
     lasted_product=Product.objects.all().order_by('-id')
     products=Product.objects.all()
 
-    context={'setting':setting,
+    context={
+        'setting':setting,
          'slide_img':slide_img,
          'lasted_product':lasted_product,
          'products':products,
@@ -123,6 +124,22 @@ def SearchView(request):
             }
             return render(request, 'category_product.html', context)
         return HttpResponseRedirect('category_product')
+
+
+
+
+def Faq_details(request):
+    product_catagory = Category.objects.all()
+    setting = Setting.objects.get(pk=1)
+    faq = FAQ.objects.filter(status=True).order_by('created_at')
+
+    context = {
+         'product_catagory': product_catagory,
+         'setting': setting,
+        'faq': faq
+
+    }
+    return render(request, 'faq1.html', context)
 
 
 
